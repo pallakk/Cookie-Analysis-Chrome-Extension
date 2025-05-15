@@ -1,4 +1,4 @@
-🕵️‍♀️ **Website Content Analyzer - Chrome Extension**
+🕵️‍♀️ Website Content Analyzer - Chrome Extension
 
 Website Content Analyzer is a lightweight Chrome extension that scans the visible text on any webpage and detects the presence of important, pre-defined keywords such as password, account number, credit card, email, and login. This tool helps raise awareness of potentially sensitive or important content that may appear on websites.
 
