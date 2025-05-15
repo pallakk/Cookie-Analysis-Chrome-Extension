@@ -8,7 +8,7 @@ document.getElementById('scanButton').addEventListener('click', async () => {
 });
 
 function scanPage() {
-  const keywords = ["age", "height", "disease", "username"];
+  const keywords = ["age", "height", "disease", "username", "credit card number", "password", "account number", "phone number", "login"];
   const pageText = document.body.innerText.toLowerCase();
   const found = keywords.filter(word => pageText.includes(word));
 
