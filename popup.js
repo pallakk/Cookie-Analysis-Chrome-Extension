@@ -1,18 +1,23 @@
-document.getElementById('scanButton').addEventListener('click', async () => {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: scanPage,
+document.getElementById("scanBtn").addEventListener("click", () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(
+      tabs[0].id,
+      { action: "getText" },
+      (response) => {
+        fetch("http://localhost:5000/scan", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: response.text }),
+        })
+          .then(res => res.json())
+          .then(data => {
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `
+              <div class='score'>Credibility Score: ${data.credibility_score}</div>
+              <div>Matches: <ul>${data.matches.map(term => `<li>${term}</li>`).join("")}</ul></div>
+            `;
+          });
+      }
+    );
   });
 });
-
-function scanPage() {
-  const keywords = ["age", "height", "disease", "username", "credit card number", "password", "account number", "phone number", "login"];
-  const pageText = document.body.innerText.toLowerCase();
-  const found = keywords.filter(word => pageText.includes(word));
-
-  alert(found.length > 0 
-    ? `Found sensitive health terms: ${found.join(', ')}`
-    : 'No sensitive health terms detected.');
-}

@@ -1,15 +1,22 @@
 {
   "manifest_version": 3,
-  "name": "Website Data Analyzer",
+  "name": "Medical Info Verifier",
   "version": "1.0",
-  "description": "Detects sensitive health-related terms on websites.",
-  "permissions": ["activeTab", "scripting"],
+  "description": "Extracts health-related statements and gives credibility warnings.",
+  "permissions": ["scripting", "activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "popup.html",
-    "default_icon": {
-      "16": "icon.png",
-      "48": "icon.png",
-      "128": "icon.png"
+    "default_title": "Scan Medical Info"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
-  }
+  ],
+  "host_permissions": ["<all_urls>"]
 }
